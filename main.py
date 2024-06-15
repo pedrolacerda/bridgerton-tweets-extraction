@@ -3,7 +3,7 @@ import json
 import config
 import pandas as pd
 
-MAX_API_CALLS = 100
+MAX_API_CALLS = 1
 
 def extract_tweets(search_query, reset_token=None):
     base_url = "https://api.twitter.com/2/tweets/search/recent"
@@ -12,11 +12,10 @@ def extract_tweets(search_query, reset_token=None):
     }
     params = {
         "query": search_query,
-        "start_time": "2024-06-12T23:59:59Z",
-        "end_time": "2024-06-15T23:59:59Z",
+        "start_time": "2024-06-11T23:59:59Z",
+        "end_time": "2024-06-14T23:59:59Z",
         "max_results": 100,
         "tweet.fields": "lang,text,public_metrics",
-        "place.fields": "country",
         "next_token": reset_token
     }
     
@@ -24,12 +23,15 @@ def extract_tweets(search_query, reset_token=None):
     
     try:
         response = requests.get(base_url, headers=headers, params=params)
+        response.encoding = 'unicode'
         response.raise_for_status() 
-        response_json = response.json().encode('utf-8')
+        response_json = response.json()
+        print(response_json)
+        
         api_calls += 1
 
         with open("tweets.json", "a") as file:
-            json.dump(response_json, file)
+            json.dump(response_json["data"], file)
             file.write("\n")
 
         next_token = response_json.get("meta", {}).get("next_token")

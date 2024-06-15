@@ -2,7 +2,7 @@
 
 This Python script is designed to extract tweets related to the Bridgerton series. It fetches tweets using the Twitter API, processes them, and saves the results in an Excel file for further analysis.
 
-The Tweets were extracted between the dates of 2024-06-12 and 2024-06-15. The raw resulting dataset can be seen in the `tweets.json` file, and the processed dataset can be seen in the `bridgerton_tweets.xlsx` file.
+The Tweets were extracted between the dates of 2024-06-12 and 2024-06-14. The raw resulting dataset can be seen in the `tweets.json` file, and the processed dataset can be seen in the `bridgerton_tweets.xlsx` file.
 
 The following query was used to fetch the tweets:
 ```
@@ -11,7 +11,7 @@ Bridgerton (Michael OR Francesca OR Michaela OR Frannie) until:2024-06-15 since:
 
 The final API query was:
 ```
-https://api.twitter.com/2/tweets/search/recent?start_time=2024-06-12T23:59:59Z&end_time=2024-06-15T23:59:59Z&max_results=100&next_token=&tweet.fields=lang,text,public_metrics&place.fields=country&query=Bridgerton (Michael OR Francesca OR Michaela OR Frannie)
+https://api.twitter.com/2/tweets/search/recent?start_time=2024-06-12T23:59:59Z&end_time=2024-06-15T23:59:59Z&max_results=100&next_token=&tweet.fields=lang,text,public_metrics&query=Bridgerton (Michael OR Francesca OR Michaela OR Frannie)
 ```
 
 ## Features
@@ -37,7 +37,7 @@ Before running this script, ensure you have the following:
 1. Clone the repository to your local machine:
 
 ```bash
-git clone https://github.com/pedrolacerda/bridgerton-tweets-analysis.git
+git clone https://github.com/pedrolacerda/bridgerton-tweets-extraction.git
 ```
 
 1. Navigate to the cloned repository directory:
