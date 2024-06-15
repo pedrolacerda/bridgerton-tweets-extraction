@@ -30,12 +30,12 @@ Before running this script, ensure you have the following:
 - A Twitter Developer account (with at least a `Pro` subscription) and a Bearer Token for API access.
 - The following Python libraries installed.
     - requests
-    - json
-    - config
     - pandas
-    - textblob
-    - langdetect
-    - googletrans
+    - openpyxl
+    - torch
+    - transformers
+    - torchvision
+    - tensorfow
 
 ## Installation
 
