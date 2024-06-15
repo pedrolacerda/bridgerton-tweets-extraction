@@ -2,7 +2,7 @@
 
 This Python script is designed to extract tweets related to the Bridgerton series. It fetches tweets using the Twitter API, processes them, and saves the results in an Excel file for further analysis.
 
-The Tweets were extracted between the dates of 2024-06-12 and 2024-06-14. The raw resulting dataset can be seen in the `tweets.json` file, and the processed dataset can be seen in the `bridgerton_tweets.xlsx` file.
+The Tweets were extracted between the dates of 2024-06-12 and 2024-06-14. The resulting dataset can be seen in the `bridgerton_tweets.xlsx` file.
 
 The following query was used to fetch the tweets:
 ```
@@ -33,6 +33,9 @@ Before running this script, ensure you have the following:
     - json
     - config
     - pandas
+    - textblob
+    - langdetect
+    - googletrans
 
 ## Installation
 
