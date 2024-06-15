@@ -44,6 +44,7 @@ def extract_tweets(search_query, df, api_calls, reset_token=None):
         if next_token and api_calls < MAX_API_CALLS:
             print(f"Extracted {len(df)} tweets. Next token: {next_token}")
             extract_tweets(search_query, df, api_calls, next_token)
+            
         else:
             print("Completed extracting tweets. Writing to XLSX file...")
             # Create a XSLX file to write the data
@@ -58,6 +59,10 @@ def extract_tweets(search_query, df, api_calls, reset_token=None):
             # Close the XLSX file
             writer.book.save("bridgerton_tweets.xlsx")
             
+            # Write the data to a JSON file for faster access for sentiment analysis
+            df.to_json("bridgerton_tweets.json", orient="records")
+            print("Data written to bridgerton_tweets.xlsx and bridgerton_tweets.json")
+            
     except requests.exceptions.RequestException as e:
         print("Error occurred during API request:", str(e))
         
@@ -66,6 +71,7 @@ def extract_tweets(search_query, df, api_calls, reset_token=None):
             print("Rate limit exceeded. Waiting for 15 minutes...")
             time.sleep(900)
             extract_tweets(search_query, df, api_calls, reset_token)
+            
         else:
             # If the dataframe is not empty, write the data to a XLSX file
             if not df.empty:
@@ -73,6 +79,11 @@ def extract_tweets(search_query, df, api_calls, reset_token=None):
                 writer = pd.ExcelWriter("bridgerton_tweets.xlsx", engine='openpyxl')
                 df.to_excel(writer, sheet_name='Tweets', index=False)
                 writer.book.save("bridgerton_tweets.xlsx")
+                
+                # Write the data to a JSON file for faster access for sentiment analysis
+                df.to_json("bridgerton_tweets.json", orient="records")
+                print("Data written to bridgerton_tweets.xlsx and bridgerton_tweets.json")
+                
             print("Exiting the program...")
         
     except json.JSONDecodeError as e:
