@@ -5,8 +5,6 @@ import pandas as pd
 import time
 import re
 from textblob import TextBlob
-from langdetect import detect
-from googletrans import Translator
 
 
 MAX_API_CALLS = 100
@@ -89,58 +87,17 @@ def extract_tweets(search_query, df, api_calls, reset_token=None):
         
     except json.JSONDecodeError as e:
         print("Error occurred while decoding JSON response:", str(e))
-        
-def translate_tweets(tweets_json_file):
-    # Read the JSON file
-    with open(tweets_json_file, "r") as file:
-        tweets = json.load(file)
-        
-    # Create a DataFrame to store the translated data
-    df_translated = pd.DataFrame(columns=['id', 'text', 'lang', 'retweet_count', 'reply_count', 'like_count', 'quote_count', 'bookmark_count', 'impression_count'])
-    
-    # Initialize the Translator object
-    translator = Translator()
-    
-    # Iterate over the tweets and translate the text
-    for tweet in tweets:
-        try:
-            lang = tweet["lang"]
-            
-            # Remove usernames from the tweet text
-            tweet["text"] = re.sub(r'@[A-Za-z0-9]+', '', tweet["text"])
-            
-            # Remove URLs from the tweet text
-            tweet["text"] = re.sub(r"http\S+", "", tweet["text"])
-            
-            # Remove emojis from the tweet text
-            tweet["text"] = re.sub(r'[^\x00-\x7F]+', '', tweet["text"])
-            
-            # Remove spaces, links, and special characters
-            tweet["text"] = re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", tweet["text"]).split()
-            
-            print("Translating tweet:", tweet["text"])
-            
-            # Translate the tweet to English
-            if lang != "en":
-                translation = translator.translate(tweet["text"], src=lang, dest="en")
-                tweet["text"] = translation.text
-                tweet["lang"] = "en"
-                
-            new_row = pd.DataFrame([[tweet["id"], tweet["text"], tweet["lang"], tweet["retweet_count"], tweet["reply_count"], tweet["like_count"], tweet["quote_count"], tweet["bookmark_count"], tweet["impression_count"]]], 
-                                        columns=['id', 'text', 'lang', 'retweet_count', 'reply_count', 'like_count', 'quote_count', 'bookmark_count', 'impression_count'])
-            df_translated = pd.concat([df_translated, new_row], ignore_index=True)
-            
-        except Exception as e:
-            print("Error occurred while translating the tweet:", str(e))
-            
-    return df_translated
 
-def sentiment_analysis(translated_tweets):
+def sentiment_analysis(tweets_file):
+    # Read the JSON file containing the tweets
+    with open(tweets_file, 'r') as file:
+        tweets = json.load(file)
+    
     # Create a DataFrame to store the sentiment analysis data
     df_sentiment = pd.DataFrame(columns=['id', 'text', 'sentiment'])
     
     # Iterate over the translated tweets and perform sentiment analysis
-    for tweet in translated_tweets:
+    for tweet in tweets:
         try:
             text = tweet["text"]
             blob = TextBlob(text)
@@ -172,12 +129,10 @@ def main():
     # Create a DataFrame to store the data
     df = pd.DataFrame(columns=['id', 'text', 'lang', 'retweet_count', 'reply_count', 'like_count', 'quote_count', 'bookmark_count', 'impression_count'])
 
-    extract_tweets(search_query, df, api_calls)
-    
-    translated_tweets = translate_tweets("bridgerton_tweets.json")
+    # extract_tweets(search_query, df, api_calls)
     
     # Perform sentiment analysis on the translated tweets
-    sentiment_analysis(translated_tweets)
+    sentiment_analysis("bridgerton_tweets.json")
 
 if __name__ == "__main__":
     main()
