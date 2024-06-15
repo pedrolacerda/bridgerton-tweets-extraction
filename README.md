@@ -14,6 +14,8 @@ The final API query was:
 https://api.twitter.com/2/tweets/search/recent?start_time=2024-06-12T23:59:59Z&end_time=2024-06-15T23:59:59Z&max_results=100&next_token=&tweet.fields=lang,text,public_metrics&query=Bridgerton (Michael OR Francesca OR Michaela OR Frannie)
 ```
 
+:warning: **Note**: We have limited the number of API calls to 100 for the research sample.
+
 ## Features
 
 - **Data Collection**: Fetches recent tweets based on a specific search query.
