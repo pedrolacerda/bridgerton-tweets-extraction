@@ -4,7 +4,10 @@ import config
 import pandas as pd
 import time
 import re
-from transformers import pipeline
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+import torch
+import re
+import tensorflow as tf
 
 MAX_API_CALLS = 100
 
@@ -95,8 +98,8 @@ def sentiment_analysis(tweets_file):
     # Create a DataFrame to store the sentiment analysis data
     df_sentiment = pd.DataFrame(columns=['id', 'text', 'sentiment'])
     
-    # Create an instance of the sentiment analysis pipeline
-    sentiment_pipeline = pipeline("sentiment-analysis")
+    tokenizer = AutoTokenizer.from_pretrained('nlptown/bert-base-multilingual-uncased-sentiment')
+    model = AutoModelForSequenceClassification.from_pretrained('nlptown/bert-base-multilingual-uncased-sentiment')
     
     # Iterate over the tweets and perform sentiment analysis
     for tweet in tweets:
@@ -119,8 +122,17 @@ def sentiment_analysis(tweets_file):
                             "]+", flags=re.UNICODE)
             emoji_pattern.sub(r'', text)
             
-            # Perform sentiment analysis using the pipeline
-            sentiment = sentiment_pipeline(text)[0]['label']
+            # Tokenize the tweet text
+            tokens = tokenizer.encode(text, return_tensors='pt', max_length=512, truncation=True)
+            result = model(tokens)
+            score = int(torch.argmax(result.logits))+1
+            
+            if score > 3:
+                sentiment = "Positive"
+            elif score < 3:
+                sentiment = "Negative"
+            else:
+                sentiment = "Neutral"
                 
             new_row = pd.DataFrame([[tweet["id"], tweet["text"], sentiment]], columns=['id', 'text', 'sentiment'])
             df_sentiment = pd.concat([df_sentiment, new_row], ignore_index=True)

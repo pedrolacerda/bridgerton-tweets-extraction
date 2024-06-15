@@ -4,3 +4,4 @@ openpyxl==3.1.4
 torch==2.3.1
 transformers==4.9.2
 torchvision==0.18.1
+tensorfow==2.16.1
