@@ -4,7 +4,7 @@ import config
 import pandas as pd
 import time
 import re
-from textblob import TextBlob
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 
 MAX_API_CALLS = 100
@@ -96,16 +96,38 @@ def sentiment_analysis(tweets_file):
     # Create a DataFrame to store the sentiment analysis data
     df_sentiment = pd.DataFrame(columns=['id', 'text', 'sentiment'])
     
-    # Iterate over the translated tweets and perform sentiment analysis
+    # Create an instance of the SentimentIntensityAnalyzer
+    analyzer = SentimentIntensityAnalyzer()
+    
+    # Iterate over the tweets and perform sentiment analysis
     for tweet in tweets:
         try:
             text = tweet["text"]
-            blob = TextBlob(text)
             
-            # Perform sentiment analysis
-            if blob.sentiment.polarity > 0:
+            # Remove usernames from the tweet text
+            text = re.sub(r'@[A-Za-z0-9]+', '', text)
+            
+            # Remove URLs from the tweet text
+            text = re.sub(r"http\S+", "", text)
+            
+            # Remove emojis from the tweet text
+            emoji_pattern = re.compile("["
+                                u"\U0001F600-\U0001F64F"  # emoticons
+                                u"\U0001F300-\U0001F5FF"  # symbols & pictographs
+                                u"\U0001F680-\U0001F6FF"  # transport & map symbols
+                                u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
+                                u"\U00002702-\U000027B0"  # Dingbats
+                            "]+", flags=re.UNICODE)
+            emoji_pattern.sub(r'', text)
+            
+            # Perform sentiment analysis using Vader
+            sentiment_scores = analyzer.polarity_scores(text)
+            compound_score = sentiment_scores["compound"]
+            
+            # Determine sentiment based on the compound score
+            if compound_score > 0:
                 sentiment = "Positive"
-            elif blob.sentiment.polarity < 0:
+            elif compound_score < 0:
                 sentiment = "Negative"
             else:
                 sentiment = "Neutral"
