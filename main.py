@@ -13,6 +13,7 @@ def extract_tweets(search_query, reset_token=None):
     params = {
         "query": search_query,
         "start_time": "2024-06-12T23:59:59Z",
+        "end_time": "2024-06-15T23:59:59Z",
         "max_results": 100,
         "tweet.fields": "lang,text,public_metrics",
         "place.fields": "country",
