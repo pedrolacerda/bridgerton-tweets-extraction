@@ -16,6 +16,8 @@ https://api.twitter.com/2/tweets/search/recent?start_time=2024-06-12T23:59:59Z&e
 
 :warning: **Note**: We have limited the number of API calls to 100 for the research sample.
 
+:warning: **Note**: We have attempted to use sentiment analysis libraries to analyze the tweets. However, the results were not satisfactory. Therefore, we have decided to remove the sentiment analysis part from the results, but the code is still available in the script.
+
 ## Features
 
 - **Data Collection**: Fetches recent tweets based on a specific search query.
@@ -36,8 +38,8 @@ Before running this script, ensure you have the following:
     - transformers *
     - torchvision *
     - tensorfow *
-    
-:hint: * These libraries are required for the sentiment analysis part of the script.
+
+:hint: * These libraries are required for the sentiment analysis part of the script. If do not with to use this feature, you can remove the code related to it.
 
 ## Installation
 

@@ -153,7 +153,7 @@ def main():
     # Create a DataFrame to store the data
     df = pd.DataFrame(columns=['id', 'text', 'lang', 'retweet_count', 'reply_count', 'like_count', 'quote_count', 'bookmark_count', 'impression_count'])
 
-    # extract_tweets(search_query, df, api_calls)
+    extract_tweets(search_query, df, api_calls)
     
     # Perform sentiment analysis on the translated tweets
     sentiment_analysis("bridgerton_tweets.json")
