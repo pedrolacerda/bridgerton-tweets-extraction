@@ -32,10 +32,12 @@ Before running this script, ensure you have the following:
     - requests
     - pandas
     - openpyxl
-    - torch
-    - transformers
-    - torchvision
-    - tensorfow
+    - torch *
+    - transformers *
+    - torchvision *
+    - tensorfow *
+    
+:hint: * These libraries are required for the sentiment analysis part of the script.
 
 ## Installation
 
