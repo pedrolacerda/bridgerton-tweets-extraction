@@ -2,7 +2,7 @@
 
 This Python script is designed to extract tweets related to the Bridgerton series. It fetches tweets using the Twitter API, processes them, and saves the results in an Excel file for further analysis.
 
-The Tweets were extracted between the dates of 2024-06-12 and 2024-06-14. The resulting dataset can be seen in the `bridgerton_tweets.xlsx` file.
+The Tweets were extracted between the dates of 2024-06-12 and 2024-06-14. The resulting dataset can be seen in the [bridgerton_tweets.xlsx](bridgerton_tweets.xlsx) file.
 
 The following query was used to fetch the tweets:
 ```
@@ -17,7 +17,7 @@ https://api.twitter.com/2/tweets/search/recent?start_time=2024-06-12T23:59:59Z&e
 > We have limited the number of API calls to 100 for the research sample.
 
 > [!NOTE]
-> We have attempted to use sentiment analysis libraries to analyze the tweets. However, the results were not satisfactory. Therefore, we have decided to remove the sentiment analysis part from the results, but the code is still available in the script.
+> We have attempted to use sentiment analysis libraries to analyze the tweets. However, the results were not satisfactory. Therefore, we have decided to remove the sentiment analysis part from the results, but the code is still available in the script. You can check how the automated analysis performed in the file [bridgerton_sentiment_analysis.xlsx](bridgerton_sentiment_analysis.xlsx)
 
 ## Features
 
