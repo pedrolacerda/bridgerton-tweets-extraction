@@ -112,8 +112,13 @@ def translate_tweets(tweets_json_file):
             # Remove URLs from the tweet text
             tweet["text"] = re.sub(r"http\S+", "", tweet["text"])
             
-            # Remove emojis and special characters from the tweet text
-            tweet["text"] = tweet["text"].encode('ascii', 'ignore').decode('ascii')
+            # Remove emojis from the tweet text
+            tweet["text"] = re.sub(r'[^\x00-\x7F]+', '', tweet["text"])
+            
+            # Remove spaces, links, and special characters
+            tweet["text"] = re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", tweet["text"]).split()
+            
+            print("Translating tweet:", tweet["text"])
             
             # Translate the tweet to English
             if lang != "en":
