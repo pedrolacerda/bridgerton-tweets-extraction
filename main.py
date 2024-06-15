@@ -4,8 +4,7 @@ import config
 import pandas as pd
 import time
 import re
-from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
-
+from transformers import pipeline
 
 MAX_API_CALLS = 100
 
@@ -96,8 +95,8 @@ def sentiment_analysis(tweets_file):
     # Create a DataFrame to store the sentiment analysis data
     df_sentiment = pd.DataFrame(columns=['id', 'text', 'sentiment'])
     
-    # Create an instance of the SentimentIntensityAnalyzer
-    analyzer = SentimentIntensityAnalyzer()
+    # Create an instance of the sentiment analysis pipeline
+    sentiment_pipeline = pipeline("sentiment-analysis")
     
     # Iterate over the tweets and perform sentiment analysis
     for tweet in tweets:
@@ -120,17 +119,8 @@ def sentiment_analysis(tweets_file):
                             "]+", flags=re.UNICODE)
             emoji_pattern.sub(r'', text)
             
-            # Perform sentiment analysis using Vader
-            sentiment_scores = analyzer.polarity_scores(text)
-            compound_score = sentiment_scores["compound"]
-            
-            # Determine sentiment based on the compound score
-            if compound_score > 0:
-                sentiment = "Positive"
-            elif compound_score < 0:
-                sentiment = "Negative"
-            else:
-                sentiment = "Neutral"
+            # Perform sentiment analysis using the pipeline
+            sentiment = sentiment_pipeline(text)[0]['label']
                 
             new_row = pd.DataFrame([[tweet["id"], tweet["text"], sentiment]], columns=['id', 'text', 'sentiment'])
             df_sentiment = pd.concat([df_sentiment, new_row], ignore_index=True)
