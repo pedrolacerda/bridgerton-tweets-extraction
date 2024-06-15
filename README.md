@@ -41,7 +41,7 @@ Before running this script, ensure you have the following:
     - tensorfow *
 
 > [!IMPORTANT]
-> These libraries are required for the sentiment analysis part of the script. If do not with to use this feature, you can remove the code related to it.
+> Libraries market with `*` are required for the sentiment analysis part of the script. If do not with to use this feature, you can remove the code related to it.
 
 ## Installation
 
